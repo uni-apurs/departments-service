@@ -99,13 +99,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 	public List<DepartmentDTO> findAllDepartmentsWhereFacultyName(String facultyName) {
 		ResponseEntity<List<FacultyDTO>> res = restTemplate.exchange(facultiesEndpoint + "?name=" + facultyName, HttpMethod.GET, null, new ParameterizedTypeReference<List<FacultyDTO>>() {});
 		List<FacultyDTO> matches = res.getBody();
-
+		
 		String inSql = "SELECT * FROM department WHERE \"facultyId\" IN (";
 		for (FacultyDTO match : matches) {
 			inSql += match.getId() + ", ";
 		}
 		inSql = inSql.substring(0, inSql.length() - 2) + ")";
-		//inSql += ")";
 		
 		List<DepartmentDTO> departments = new ArrayList<DepartmentDTO>();
 		
