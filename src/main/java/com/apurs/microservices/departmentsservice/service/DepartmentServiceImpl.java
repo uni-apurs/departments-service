@@ -94,6 +94,17 @@ public class DepartmentServiceImpl implements DepartmentService {
 		departmentRepository.deleteById(id);
 		return true;
 	}
+	
+	@Override
+	public List<DepartmentDTO> findAllDepartmentsByName(String name) {
+		List<Department> departments = departmentRepository.findByNameContainingIgnoreCase(name);
+		List<DepartmentDTO> dtos = new ArrayList<DepartmentDTO>();
+		
+		for (Department department : departments)
+			dtos.add(modelMapper.map(department, DepartmentDTO.class));
+		
+		return dtos;
+	}
 
 	@Override
 	public List<DepartmentDTO> findAllDepartmentsWhereFacultyName(String facultyName) {

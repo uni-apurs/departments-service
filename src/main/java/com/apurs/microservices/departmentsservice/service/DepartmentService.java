@@ -13,5 +13,7 @@ public interface DepartmentService {
 	public abstract DepartmentDTO update(DepartmentUpdateDTO department) throws Exception;
 	public abstract boolean delete(Integer id);
 	
+	public abstract List<DepartmentDTO> findAllDepartmentsByName(String name);
+
 	public abstract List<DepartmentDTO> findAllDepartmentsWhereFacultyName(String facultyName);
 }

@@ -28,7 +28,12 @@ public class DepartmentRestController {
 	private DepartmentService departmentService;
 	
 	@GetMapping("")
-	public List<DepartmentDTO> getDepartments(@RequestParam(required = false) String facultyName) {
+	public List<DepartmentDTO> getDepartments(
+			@RequestParam(required = false) String name,
+			@RequestParam(required = false) String facultyName) {
+		if (name != null)
+			return departmentService.findAllDepartmentsByName(name);
+		
 		if (facultyName != null)
 			return departmentService.findAllDepartmentsWhereFacultyName(facultyName);
 			
