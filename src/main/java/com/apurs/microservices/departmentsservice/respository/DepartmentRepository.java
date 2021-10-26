@@ -10,4 +10,5 @@ import com.apurs.microservices.departmentsservice.model.Department;
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Integer> {
 	List<Department> findByNameContainingIgnoreCase(String name);
+	List<Department> findByFacultyId(Integer id);
 }

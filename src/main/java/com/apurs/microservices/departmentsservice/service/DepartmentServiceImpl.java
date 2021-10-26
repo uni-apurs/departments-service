@@ -109,9 +109,18 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public List<DepartmentDTO> findAllDepartmentsWhereFacultyName(String facultyName) {
 		ResponseEntity<List<FacultyDTO>> res = restTemplate.exchange(facultiesEndpoint + "?name=" + facultyName, HttpMethod.GET, null, new ParameterizedTypeReference<List<FacultyDTO>>() {});
-		List<FacultyDTO> matches = res.getBody();
+		List<FacultyDTO> matches = res.getBody();		
+		List<DepartmentDTO> departments = new ArrayList<DepartmentDTO>();
 		
-		String inSql = "SELECT * FROM department WHERE \"facultyId\" IN (";
+		for (FacultyDTO match : matches) {
+			List<Department> deps = departmentRepository.findByFacultyId(match.getId());
+			//System.out.println(match.getName());
+			for (Department dep : deps) {
+				departments.add(modelMapper.map(dep, DepartmentDTO.class));
+			}
+		}
+		
+		/*String inSql = "SELECT * FROM department WHERE \"facultyId\" IN (";
 		for (FacultyDTO match : matches) {
 			inSql += match.getId() + ", ";
 		}
@@ -125,7 +134,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 					rs.getInt("facultyId"),
 					rs.getString("name")
 				));
-		
+		*/
 		return departments;
 	}
 
